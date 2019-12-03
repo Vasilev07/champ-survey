@@ -1,9 +1,10 @@
 import { connect, connection, Connection } from 'mongoose';
+import { Category, CategoryModel } from '../models/category-model';
 import { User, UserModel } from '../models/user-model';
 
 declare interface IModels {
     User: UserModel;
-
+    Category: CategoryModel;
 }
 
 export class DB {
@@ -20,7 +21,8 @@ export class DB {
         this._db.on('error', this.error);
 
         this._models = {
-            User: new User().model
+            User: new User().model,
+            Category: new Category().model,
             // this is where we initialise all models
         }
     }

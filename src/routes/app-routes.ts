@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
 export const init = (app: any) => {
+    // const categoriesService = new CategoriesService();
     app.get('/', async (request: Request, response: Response) => {
         // const statisticsData = await dataController.getAllUsersCategories();
         const context = {
@@ -30,6 +31,14 @@ export const init = (app: any) => {
             user: request.user,
             // categories,
         });
-    })
+    });
+
+    app.get('/create', (request: Request, response: Response) => {
+        if (!request.isAuthenticated()) {
+            return response.redirect('/');
+        }
+
+        // const categories = await 
+    });
 
 };
