@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
+import { CategoriesController } from '../controllers/categories-controller';
 
 export const init = (app: any) => {
-    // const categoriesService = new CategoriesService();
+    const categoriesController = new CategoriesController();
     app.get('/', async (request: Request, response: Response) => {
         // const statisticsData = await dataController.getAllUsersCategories();
         const context = {
@@ -33,12 +34,20 @@ export const init = (app: any) => {
         });
     });
 
-    app.get('/create', (request: Request, response: Response) => {
+    app.get('/create',async (request: Request, response: Response) => {
         if (!request.isAuthenticated()) {
             return response.redirect('/');
         }
 
-        // const categories = await 
+        const categories = await categoriesController.getAllCategories();
+
+        const model = {
+            categories,
+            // questionTypes,
+            isAuthenticated: request.isAuthenticated(),
+            user: request.user,
+        };
+        return response.render('create-survey/create-survey-master', model);
     });
 
 };

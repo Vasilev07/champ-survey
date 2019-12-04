@@ -14,4 +14,11 @@ mixin initial()
                 | #{category.name}
         .form-group.initial-field
             .col-sm-offset-2.col-sm-10
+            form#loginForm.form-horizontal(action='/create/category', method='POST')
+              .form-group
+                label.control-label.col-sm-2(for='category') Create Category:
+                  .col-sm-6
+                input#loginUsername.form-control(type='text', placeholder='Enter category name', name='categoryName')
+                button.btn.btn-success(type='submit',value='Create Category') Create Category
+            br
             button#continue-btn.btn.btn-primary(type='button') Continue

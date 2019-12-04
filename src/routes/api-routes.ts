@@ -14,7 +14,9 @@ export const init = (app: any): void => {
 
     app.post('/create/category', async (request: Request, response: Response) => {
         const categoryName: string = request.body.categoryName;
-        console.log
+
         await categoriesController.createCategory({ name: categoryName });
+
+        return response.redirect('/create');
     });
 };
