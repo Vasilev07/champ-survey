@@ -5,17 +5,17 @@ $(function () {
     let questionTypesHolder;
     const questionAnswers = [];
 
-    $.ajax({
-        method: "POST",
-        async: true,
-        url: "/api/get-user",
-        error: function (error) {
-            console.log(error);
-        },
-        success: function (resolve) {
-            user = resolve;
-        }
-    });
+    // $.ajax({
+    //     method: "POST",
+    //     async: true,
+    //     url: "/api/get-user",
+    //     error: function (error) {
+    //         console.log(error);
+    //     },
+    //     success: function (resolve) {
+    //         user = resolve;
+    //     }
+    // });
 
     $("#generate-share").hide();
     $("#edit-create-btn").hide();
@@ -66,18 +66,18 @@ $(function () {
                 userId: user.id
             };
 
-            $.ajax({
-                method: "POST",
-                async: false,
-                url: "/api/check-survey-name",
-                data: dataToCheck,
-                error: function (error) {
-                    console.log(error);
-                },
-                success: function (resolve) {
-                    ifSurveyExist = resolve;
-                }
-            });
+            // $.ajax({
+            //     method: "POST",
+            //     async: false,
+            //     url: "/api/check-survey-name",
+            //     data: dataToCheck,
+            //     error: function (error) {
+            //         console.log(error);
+            //     },
+            //     success: function (resolve) {
+            //         ifSurveyExist = resolve;
+            //     }
+            // });
 
             if (ifSurveyExist) {
                 $(".survey-name-exist-msg label").html("You have a survey with that name");
@@ -147,29 +147,29 @@ $(function () {
         }
     });
 
-    $("#generate-share").click(function (e) {
-        e.preventDefault();
-        const surveyData = {
-            surveyName: $("#survey-name").val()
-        };
+    // $("#generate-share").click(function (e) {
+    //     e.preventDefault();
+    //     const surveyData = {
+    //         surveyName: $("#survey-name").val()
+    //     };
 
-        $.ajax({
-            method: "POST",
-            async: true,
-            url: "/api/generate-share",
-            data: surveyData,
-            error: function (error) {
-                console.log(error);
-            },
-            success: function (resolve) {
-                $("#generate-share")
-                    .attr("type", "text")
-                    .attr("readonly", "true")
-                    .attr("value", resolve)
-                    .removeClass().off("click");
-            }
-        });
-    });
+    //     $.ajax({
+    //         method: "POST",
+    //         async: true,
+    //         url: "/api/generate-share",
+    //         data: surveyData,
+    //         error: function (error) {
+    //             console.log(error);
+    //         },
+    //         success: function (resolve) {
+    //             $("#generate-share")
+    //                 .attr("type", "text")
+    //                 .attr("readonly", "true")
+    //                 .attr("value", resolve)
+    //                 .removeClass().off("click");
+    //         }
+    //     });
+    // });
 
     $(".done").on("click", function (e) {
         e.preventDefault();
@@ -236,31 +236,31 @@ $(function () {
         questionWrapper.remove();
     });
 
-    $("#create-survey").on("click", function (e) {
-        e.preventDefault();
-        const submissionModal = $("#submission-survey-modal");
-        surveyData.questionData = questionAnswers;
-        $.ajax({
-            method: "POST",
-            async: true,
-            url: "/api/create",
-            data: surveyData,
-            error: function () {
-                submissionModal.modal("show");
-                $("i.reject").show();
-                $("span.reject").show();
-            },
-            success: function () {
-                submissionModal.modal("show");
-                $("i.success").show();
-                $("span.success").show();
+    // $("#create-survey").on("click", function (e) {
+    //     e.preventDefault();
+    //     const submissionModal = $("#submission-survey-modal");
+    //     surveyData.questionData = questionAnswers;
+    //     $.ajax({
+    //         method: "POST",
+    //         async: true,
+    //         url: "/api/create",
+    //         data: surveyData,
+    //         error: function () {
+    //             submissionModal.modal("show");
+    //             $("i.reject").show();
+    //             $("span.reject").show();
+    //         },
+    //         success: function () {
+    //             submissionModal.modal("show");
+    //             $("i.success").show();
+    //             $("span.success").show();
 
-                $(".modal").on("hidden.bs.modal", function () {
-                    window.location.href = "/index";
-                });
-            }
-        });
-    });
+    //             $(".modal").on("hidden.bs.modal", function () {
+    //                 window.location.href = "/index";
+    //             });
+    //         }
+    //     });
+    // });
 
     $(".modal").on("hidden.bs.modal", function () {
         $(".form-control").val("");
