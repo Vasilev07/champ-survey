@@ -44,8 +44,7 @@ export const init = (app: any) => {
 
         const categories = await categoriesController.getAllCategories();
         const questionTypes = await configController.getQuestionTypes();
-        console.log('questionTypes', questionTypes);
-        console.log('categories', categories);
+
         const model = {
             categories,
             questionTypes,
