@@ -1,10 +1,14 @@
 import { connect, connection, Connection } from 'mongoose';
 import { Category, CategoryModel } from '../models/category-model';
+import { Config, ConfigModel } from '../models/config-model';
+import { Survey, SurveyModel } from '../models/survey-model';
 import { User, UserModel } from '../models/user-model';
 
 declare interface IModels {
     User: UserModel;
     Category: CategoryModel;
+    Survey: SurveyModel;
+    Config: ConfigModel;
 }
 
 export class DB {
@@ -23,6 +27,8 @@ export class DB {
         this._models = {
             User: new User().model,
             Category: new Category().model,
+            Survey: new Survey().model,
+            Config: new Config().model,
             // this is where we initialise all models
         }
     }

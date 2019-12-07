@@ -4,8 +4,8 @@ import { ICategoryData } from "../interfaces/category-interface";
 
 export class CategoriesService {
 
-    public createCategory(categoryName: ICategoryData): void {
-        const isCategoryNameTaken = !isNil(this.getCategoryByName(categoryName));
+    public async createCategory(categoryName: ICategoryData): Promise<void> {
+        const isCategoryNameTaken = !isNil(await this.getCategoryByName(categoryName));
         const categoryToSave = new DB.Models.Category(categoryName);
 
         if (categoryName.name === '') {
@@ -16,7 +16,7 @@ export class CategoriesService {
             throw new Error('Such category already esists');
         }
 
-        categoryToSave.save((err) => {
+        await categoryToSave.save((err) => {
             if (err) {
                 throw new Error(err);
             }
@@ -27,7 +27,7 @@ export class CategoriesService {
         return await DB.Models.Category.find({ });
     }
 
-    private async getCategoryByName(categoryName: ICategoryData): Promise<ICategoryData | null> {
+    public async getCategoryByName(categoryName: ICategoryData): Promise<ICategoryData | null> {
         return await DB.Models.Category.findOne(categoryName);
     }
 }

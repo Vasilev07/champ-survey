@@ -1,8 +1,11 @@
 import { Request, Response } from 'express';
 import { CategoriesController } from '../controllers/categories-controller';
+import { ConfigController } from '../controllers/config-controller';
 
 export const init = (app: any) => {
     const categoriesController = new CategoriesController();
+    const configController = new ConfigController();
+
     app.get('/', async (request: Request, response: Response) => {
         // const statisticsData = await dataController.getAllUsersCategories();
         const context = {
@@ -40,13 +43,16 @@ export const init = (app: any) => {
         }
 
         const categories = await categoriesController.getAllCategories();
-
+        const questionTypes = await configController.getQuestionTypes();
+        console.log('questionTypes', questionTypes);
+        console.log('categories', categories);
         const model = {
             categories,
-            // questionTypes,
+            questionTypes,
             isAuthenticated: request.isAuthenticated(),
             user: request.user,
         };
+        
         return response.render('create-survey/create-survey-master', model);
     });
 

@@ -1,5 +1,7 @@
 include ../shared-views/nav
 include ./initial
+include ./question
+include ./popup-edit-create
 
 <!DOCTYPE html>
 html(lang="en")
@@ -26,7 +28,7 @@ html(lang="en")
             
         div#question.container
             //- +question()
-            //- +edit-create()
+            +edit-create()
         div.container
             ol#question-list
         .container
