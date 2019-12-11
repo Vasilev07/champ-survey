@@ -2,6 +2,7 @@ include ../shared-views/nav
 include ./initial
 include ./question
 include ./popup-edit-create
+include ../preview-survey/modal-message
 
 <!DOCTYPE html>
 html(lang="en")
@@ -13,8 +14,8 @@ html(lang="en")
         link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" crossorigin="anonymous")
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
         script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
-        link(rel="stylesheet", href="static/styles/main.css")
-        //- script(src="static/js/create-survey.js")
+        link(rel="stylesheet", href="static/styles/styles.css")
+        script(src="static/js/create-survey.js")
         title Kick Survey
     body
         +nav()
@@ -33,7 +34,7 @@ html(lang="en")
             ol#question-list
         .container
             div.col-xs-12.col-sm-12.col-md-12.col-lg-12
-            .btn-group.done-submit
-                button.btn.btn-success.add-submit.active(data-toggle="modal" data-target="#edit-create") ADD QUESTION
-                button#create-survey.btn.btn-success.add-submit(type="submit" form="create-form") SUBMIT
-        //- +modalMessage()
+                .btn-group.done-submit
+                    button.btn.btn-success.add-submit.active(data-toggle="modal" data-target="#edit-create") ADD QUESTION
+                    button#create-survey.btn.btn-success.add-submit(type="submit" form="create-form") SUBMIT
+        +modalMessage()

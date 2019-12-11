@@ -5,18 +5,19 @@ $(function () {
     let questionTypesHolder;
     const questionAnswers = [];
 
-    // $.ajax({
-    //     method: "POST",
-    //     async: true,
-    //     url: "/api/get-user",
-    //     error: function (error) {
-    //         console.log(error);
-    //     },
-    //     success: function (resolve) {
-    //         user = resolve;
-    //     }
-    // });
-
+    $.ajax({
+        method: "POST",
+        async: true,
+        url: "/get-user",
+        error: function (error) {
+            console.log(error);
+        },
+        success: function (resolve) {
+            console.log(resolve);
+            user = resolve;
+        }
+    });
+    console.log('user', user);
     $("#generate-share").hide();
     $("#edit-create-btn").hide();
     $("button.center-block").hide();
@@ -63,21 +64,21 @@ $(function () {
 
             const dataToCheck = {
                 surveyName: surveyData.surveyName,
-                userId: user.id
+                userId: user._id
             };
 
-            // $.ajax({
-            //     method: "POST",
-            //     async: false,
-            //     url: "/api/check-survey-name",
-            //     data: dataToCheck,
-            //     error: function (error) {
-            //         console.log(error);
-            //     },
-            //     success: function (resolve) {
-            //         ifSurveyExist = resolve;
-            //     }
-            // });
+            $.ajax({
+                method: "POST",
+                async: false,
+                url: "/api/check-survey-name",
+                data: dataToCheck,
+                error: function (error) {
+                    console.log(error);
+                },
+                success: function (resolve) {
+                    ifSurveyExist = resolve;
+                }
+            });
 
             if (ifSurveyExist) {
                 $(".survey-name-exist-msg label").html("You have a survey with that name");

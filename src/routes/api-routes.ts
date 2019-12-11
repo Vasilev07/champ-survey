@@ -32,4 +32,15 @@ export const init = (app: any): void => {
 
         return response.redirect(200, '/create');
     });
+
+    app.post('/get-user', (request: Request, response: Response) => {
+        const userRequest = request.user;
+        console.log(userRequest);
+        console.log(request);
+        if (!userRequest) {
+            return response.status(400).send('user not found');
+        }
+
+        return response.status(200).send(userRequest);
+    })
 };
