@@ -8,7 +8,6 @@ export class UserController {
         this.usersService = new UsersService();
     }
     public async createUser(user: IUserData): Promise<any> {
-        console.log('user in controller', user);
        return await this.usersService.createUser(user);
     }
 }

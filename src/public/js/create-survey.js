@@ -59,7 +59,7 @@ $(function () {
         if ($("#survey-name").val()) {
             surveyData = {
                 surveyName: $("#survey-name").val(),
-                category: $("#categories").val()
+                category_name: $("#categories").val()
             };
 
             const dataToCheck = {
@@ -148,29 +148,29 @@ $(function () {
         }
     });
 
-    // $("#generate-share").click(function (e) {
-    //     e.preventDefault();
-    //     const surveyData = {
-    //         surveyName: $("#survey-name").val()
-    //     };
+    $("#generate-share").click(function (e) {
+        e.preventDefault();
+        const surveyData = {
+            surveyName: $("#survey-name").val()
+        };
 
-    //     $.ajax({
-    //         method: "POST",
-    //         async: true,
-    //         url: "/api/generate-share",
-    //         data: surveyData,
-    //         error: function (error) {
-    //             console.log(error);
-    //         },
-    //         success: function (resolve) {
-    //             $("#generate-share")
-    //                 .attr("type", "text")
-    //                 .attr("readonly", "true")
-    //                 .attr("value", resolve)
-    //                 .removeClass().off("click");
-    //         }
-    //     });
-    // });
+        $.ajax({
+            method: "POST",
+            async: true,
+            url: "/api/generate-share",
+            data: surveyData,
+            error: function (error) {
+                console.log(error);
+            },
+            success: function (resolve) {
+                $("#generate-share")
+                    .attr("type", "text")
+                    .attr("readonly", "true")
+                    .attr("value", resolve)
+                    .removeClass().off("click");
+            }
+        });
+    });
 
     $(".done").on("click", function (e) {
         e.preventDefault();
@@ -190,6 +190,8 @@ $(function () {
         });
         obj.answers = obj.answers.length ? obj.answers : "";
 
+        console.log('obj', obj);
+        
         questionAnswers.push(obj);
 
         const qName = $("#create-form .form-control").val();
@@ -237,31 +239,32 @@ $(function () {
         questionWrapper.remove();
     });
 
-    // $("#create-survey").on("click", function (e) {
-    //     e.preventDefault();
-    //     const submissionModal = $("#submission-survey-modal");
-    //     surveyData.questionData = questionAnswers;
-    //     $.ajax({
-    //         method: "POST",
-    //         async: true,
-    //         url: "/api/create",
-    //         data: surveyData,
-    //         error: function () {
-    //             submissionModal.modal("show");
-    //             $("i.reject").show();
-    //             $("span.reject").show();
-    //         },
-    //         success: function () {
-    //             submissionModal.modal("show");
-    //             $("i.success").show();
-    //             $("span.success").show();
+    $("#create-survey").on("click", function (e) {
+        e.preventDefault();
+        const submissionModal = $("#submission-survey-modal");
+        surveyData = { ...surveyData, questionData: JSON.stringify(questionAnswers) };
+        console.log('surveyData in jquery', surveyData);
+        $.ajax({
+            method: "POST",
+            async: true,
+            url: "/create",
+            data: surveyData,
+            error: function () {
+                submissionModal.modal("show");
+                $("i.reject").show();
+                $("span.reject").show();
+            },
+            success: function () {
+                submissionModal.modal("show");
+                $("i.success").show();
+                $("span.success").show();
 
-    //             $(".modal").on("hidden.bs.modal", function () {
-    //                 window.location.href = "/index";
-    //             });
-    //         }
-    //     });
-    // });
+                $(".modal").on("hidden.bs.modal", function () {
+                    window.location.href = "/index";
+                });
+            }
+        });
+    });
 
     $(".modal").on("hidden.bs.modal", function () {
         $(".form-control").val("");

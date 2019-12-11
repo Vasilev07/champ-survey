@@ -12,15 +12,14 @@ export class SurveysService {
         this.usersService = new UsersService();
     }
     public async createSurvey(surveyData: ISurveyData): Promise<void> {
+        console.log('surveyData', surveyData);
         const categoryId = await this.getCategoryIdByName(surveyData.category_name) ? 
             await this.getCategoryIdByName(surveyData.category_name): 
             new Error('no such category');
-        const userId =  !isNil(await this.getUserIdByName(surveyData.user_name)) ? 
-            await this.getCategoryIdByName(surveyData.user_name): 
+        const userId =  !isNil(await this.getUserIdByName(surveyData.username)) ? 
+            await this.getCategoryIdByName(surveyData.username): 
             new Error('no such user');
-        console.log('categoryId', categoryId);
-        console.log(surveyData.user_name);
-        console.log('userId', userId);
+        
         if (categoryId instanceof Error) {
             throw categoryId;
         } 
@@ -28,11 +27,12 @@ export class SurveysService {
         if (userId instanceof Error) {
             throw userId;
         } 
-    
+        console.log('surveyData.questionData', surveyData.questionData);
         const surveyToSave = new DB.Models.Survey({
             category_id: categoryId,
             user_id: userId,
-            name: surveyData.name,
+            name: surveyData.surveyName,
+            questionData: surveyData.questionData,
         });
         
         await surveyToSave.save((err) => {
@@ -49,7 +49,7 @@ export class SurveysService {
 
     public async getUserIdByName(username: string): Promise<string | undefined> {
         const foundUser = await this.usersService.findUserByUsername(username);
-
+        console.log('foundUser', foundUser);
         if (!isNil(foundUser)) {
             return foundUser._id;
         }

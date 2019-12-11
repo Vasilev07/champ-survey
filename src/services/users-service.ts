@@ -13,7 +13,6 @@ export class UsersService {
         this.cryptoService = new CryptoService();
     }
     public async createUser(user: IUserData): Promise<any> {
-        console.log(user);
         const hashedPassword = await this.cryptoService.hashPassword(user.password);
         const isUsernameTaken = await isNil(this.validateUsername(user.username));
         const isEmailInValid = await this.validateEmail(user.email);
@@ -61,7 +60,7 @@ export class UsersService {
 
     private async validateUsername(username: string): Promise<IUser | null>{
         const searchForUser = await this.findUserByUsername(username);
-        console.log('searchForUser', searchForUser);
+        
         return searchForUser;
     }
 

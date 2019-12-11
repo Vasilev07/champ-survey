@@ -17,7 +17,7 @@ export const init = (app: any): void => {
             password: userModel.password,
             confirmationPassword: userModel.confirmationPassword,
         };
-        console.log('USER MODEL', userModel);
+        
         try {
             const user = await userController.createUser(userObject);
             passport.authenticate('local', (err, user, info) => {

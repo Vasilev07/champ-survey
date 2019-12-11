@@ -22,7 +22,7 @@ export const init = (app: any,) => {
 
     app.get('/logout', (req: Request, res: Response) => {
         req.logout();
-        console.log(req.isAuthenticated());
+        
         res.redirect('/');
     });
 };

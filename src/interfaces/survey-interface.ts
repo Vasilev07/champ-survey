@@ -1,5 +1,6 @@
 export interface ISurveyData {
-    name: string;
+    surveyName: string;
     category_name: string;
-    user_name: string;
+    username: string;
+    questionData: any[];
 }

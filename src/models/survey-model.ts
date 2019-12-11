@@ -4,6 +4,7 @@ export declare interface ISurvey extends Document {
     name: string;
     user_id: string;
     category_id: string;
+    questionData: any[],
 };
 export interface SurveyModel extends Model<ISurvey> {};
 
@@ -15,6 +16,7 @@ export class Survey {
             name: String,
             user_id: String,
             category_id: String,
+            questionData: Array,
         });
 
         this._model = model<ISurvey>('Survey', surveySchema);

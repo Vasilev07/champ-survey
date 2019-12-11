@@ -17,10 +17,13 @@ export const init = (app: any): void => {
 
     app.post('/create', async (request: Request, response: Response) => {
         const surveyData = request.body;
-        const username: any = request.body;
-        console.log(username);
+        const user: any = request.user;
 
-        await surveysController.createSurvey({...surveyData, user_name: username});
+        await surveysController.createSurvey({
+            ...surveyData, 
+            questionData: JSON.parse(surveyData.questionData), 
+            username: user.username}
+        );
 
         return response.status(200).json(request.body);
     });
@@ -35,8 +38,7 @@ export const init = (app: any): void => {
 
     app.post('/get-user', (request: Request, response: Response) => {
         const userRequest = request.user;
-        console.log(userRequest);
-        console.log(request);
+       
         if (!userRequest) {
             return response.status(400).send('user not found');
         }
