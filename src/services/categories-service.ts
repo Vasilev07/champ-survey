@@ -30,4 +30,8 @@ export class CategoriesService {
     public async getCategoryByName(categoryName: ICategoryData): Promise<ICategoryData | null> {
         return await DB.Models.Category.findOne(categoryName);
     }
+
+    public async getCategoryById(categoryId: string): Promise<ICategoryData | null> {
+        return await DB.Models.Category.findOne({ _id: categoryId });
+    }
 }

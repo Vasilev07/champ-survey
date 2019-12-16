@@ -2,7 +2,6 @@ import { isNil } from "lodash";
 import { Error } from "mongoose";
 import { DB } from "../controllers/db-controller";
 import { IUserData } from "../interfaces/user-interface";
-import { IUser } from "../models/user-model";
 import { CryptoService } from "./crypto-service";
 
 
@@ -16,7 +15,10 @@ export class UsersService {
         const hashedPassword = await this.cryptoService.hashPassword(user.password);
         const isUsernameTaken = await isNil(this.validateUsername(user.username));
         const isEmailInValid = await this.validateEmail(user.email);
-        const doesPasswordsMatch = this.validatePasswords(user.password, user.confirmationPassword)
+        let doesPasswordsMatch: any;
+        if(user.confirmationPassword) {
+            doesPasswordsMatch = this.validatePasswords(user.password, user.confirmationPassword)
+        }
         
         if (isUsernameTaken) {
             throw new Error('This username is already taken');
@@ -46,10 +48,12 @@ export class UsersService {
     } 
     
     private validatePasswords(password: string, confirmationPassword: string): boolean {
+        console.log(password);
+        console.log(confirmationPassword);
         return password === confirmationPassword;
     }
 
-    public async findUserByUsername(username: string): Promise<IUser | null> {
+    public async findUserByUsername(username: string): Promise<IUserData | null> {
         return await DB.Models.User.findOne({ username });
     }
 
@@ -58,7 +62,7 @@ export class UsersService {
         return allUsers.map((user) => user.email);
     }
 
-    private async validateUsername(username: string): Promise<IUser | null>{
+    private async validateUsername(username: string): Promise<IUserData | null>{
         const searchForUser = await this.findUserByUsername(username);
         
         return searchForUser;

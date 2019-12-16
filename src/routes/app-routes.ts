@@ -7,33 +7,28 @@ export const init = (app: any) => {
     const configController = new ConfigController();
 
     app.get('/', async (request: Request, response: Response) => {
-        // const statisticsData = await dataController.getAllUsersCategories();
-        const context = {
-            isAuthenticated: request.isAuthenticated(),
-            user: request.user,
-            label: 'test',
-            data: 'test',
-        };
+        // const categories = await categoriesController.getAllCategories();
+        // const context = {
+        //     isAuthenticated: request.isAuthenticated(),
+        //     user: request.user,
+        //     label: [],
+        //     data: [],
+        // };
 
-        response.render('shared-views/master', context);
+        response.render('../views/shared-views/master.pug');
     });
 
     app.get('/index', async (request: Request, response: Response) => {
-        let categories = [];
         if (!request.isAuthenticated()) {
             return response.redirect('/');
         }
 
-        try {
-            // categories = await dataController.getAllCategories();
-        } catch (err) {
-            categories = [];
-        }
-
+        const categories = await categoriesController.getAllCategories();
+        // console.log(categories);
         return response.render('index', {
             isAuthenticated: request.isAuthenticated(),
             user: request.user,
-            // categories,
+            categories,
         });
     });
 
@@ -55,4 +50,10 @@ export const init = (app: any) => {
         return response.render('create-survey/create-survey-master', model);
     });
 
+    app.get('/preview/:url', async (request: Request, response: Response) => {
+        response.render('preview-survey/preview', {
+            isAuthenticated: request.isAuthenticated(),
+            user: request.user,
+        });
+    });
 };

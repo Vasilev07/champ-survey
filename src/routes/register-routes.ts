@@ -15,7 +15,7 @@ export const init = (app: any): void => {
             firstname: userModel.firstname,
             lastname: userModel.lastname,
             password: userModel.password,
-            confirmationPassword: userModel.confirmationPassword,
+            confirmationPassword: userModel.rePassword,
         };
         
         try {
@@ -31,7 +31,7 @@ export const init = (app: any): void => {
                     if (error) {
                         return next(error);
                     }
-                    return response.status(200).redirect('/index');
+                    return response.status(200).redirect(200, '/index');
                 });
             })(request, response, next);
         } catch (err) {

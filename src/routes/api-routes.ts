@@ -1,7 +1,8 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import path from 'path';
 import { CategoriesController } from '../controllers/categories-controller';
 import { SurveyController } from '../controllers/survey-controller';
+import { IUser } from '../models/user-model';
 
 export const init = (app: any): void => {
     // console.log(data);
@@ -10,11 +11,6 @@ export const init = (app: any): void => {
 
     app.set('views', path.join(__dirname, '../views'));
 
-    app.get('/', (request: Request, response: Response, next: NextFunction) => {
-        // response.send('Hello Georgi!');
-        response.render('../views/index.pug');
-    });
-
     app.post('/create', async (request: Request, response: Response) => {
         const surveyData = request.body;
         const user: any = request.user;
@@ -22,8 +18,8 @@ export const init = (app: any): void => {
         await surveysController.createSurvey({
             ...surveyData, 
             questionData: JSON.parse(surveyData.questionData), 
-            username: user.username}
-        );
+            username: user.username
+        });
 
         return response.status(200).json(request.body);
     });
@@ -44,5 +40,21 @@ export const init = (app: any): void => {
         }
 
         return response.status(200).send(userRequest);
-    })
+    });
+
+    app.post('/user-surveys', async (request: Request, response: Response) => {
+        const userRequest = request.user as IUser;
+        const category = request.body.category;
+        console.log('userRequest', userRequest);
+        console.log('category', category);
+
+        if (!userRequest) {
+            return response.status(400).send('user not found');
+        }
+
+        const surveys = await surveysController.getUserSurveysData(userRequest.username, category);
+
+        console.log('serveys in routes', surveys);
+        return response.status(200).send(surveys);
+    });
 };

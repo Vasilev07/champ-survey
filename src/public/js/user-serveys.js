@@ -19,6 +19,7 @@ $(function () {
     };
 
     const surveyDataPreview = function (survey) {
+        console.log('parameter survey', survey);
         const surveyWrapper = $("<div></div>");
         const thumbnailWrapper = $("<div></div>");
         const captionWrapper = $("<div></div>");
@@ -46,7 +47,7 @@ $(function () {
                     title: "Survey title"
                 }))
             .append($("<span></span>")
-                .html(survey.surveyData.name));
+                .html(survey.name));
 
         catDiv.addClass("survey-cat row")
             .append($("<i></i>")
@@ -55,7 +56,7 @@ $(function () {
                     title: "Category"
                 }))
             .append($("<span></span>")
-                .html(survey.surveyData.category));
+                .html(survey.category));
 
         dateDiv.addClass("survey-date row")
             .append($("<i></i>")
@@ -64,7 +65,7 @@ $(function () {
                     title: "Creation date"
                 }))
             .append($("<span></span>")
-                .html((survey.surveyData.createdAt)
+                .html((survey.createdAt)
                     .replace("T", " ")
                     .replace("Z", " ")
                     .slice(0, -5)));
@@ -76,10 +77,10 @@ $(function () {
                     title: "Responses"
                 }))
             .append($("<span></span>")
-                .html(survey.surveyData.uniqueSubmits));
+                .html(survey.uniqueSubmissions));
 
         analyzeDiv.addClass("survey-analyse col-xs-3 col-sm-3 col-md-3 col-lg-3")
-            .append($("<a href=/analyze/" + survey.surveyData.encryptedUrl + "></a>")
+            .append($("<a href=/analyze/" + survey.encryptedUrl + "></a>")
                 .addClass("analyze-anchor")
                 .tooltip({
                     title: "Let's see how people answered your questions."
@@ -95,7 +96,7 @@ $(function () {
                     placement: "bottom",
                     html: false,
                     content: window.location.origin +
-                        "/preview/" + survey.surveyData.encryptedUrl
+                        "/preview/" + survey.encryptedUrl
                 })
                 .tooltip({
                     title: "Share your survey with the world!"
@@ -106,7 +107,7 @@ $(function () {
         previewDiv.addClass("survey-preview col-xs-3 col-sm-3 col-md-3 col-lg-3")
             .append($("<a></a>")
                 .addClass("preview-button")
-                .attr("href", window.location.origin + "/preview/" + survey.surveyData.encryptedUrl)
+                .attr("href", window.location.origin + "/preview/" + survey.encryptedUrl)
                 .tooltip({
                     title: "See how your survey looks like"
                 })
@@ -126,9 +127,9 @@ $(function () {
 
         hiddenInput.attr({
             type: "hidden",
-            id: "survey-" + survey.surveyData.encryptedUrl,
+            id: "survey-" + survey.encryptedUrl,
             name: "survey",
-            value: survey.surveyData.encryptedUrl
+            value: survey.encryptedUrl
         });
 
         footer
@@ -184,7 +185,7 @@ $(function () {
         $.ajax({
             method: "POST",
             async: true,
-            url: "api/user-surveys",
+            url: "user-surveys",
             data: reqData,
             beforeSend: function () {
                 $(".spinner").show();
@@ -208,8 +209,9 @@ $(function () {
                 if (surveys.length === 0) {
                     $("#surveys-found-status").modal("show");
                 }
-
+                console.log('surveys in JS ', surveys)
                 surveys.forEach((survey, index) => {
+                    console.log('sinlge survey', survey, index);
                     if (index % 2 === 0) {
                         const newRow = $("<div></div>");
                         const offset = $("<div></div>");

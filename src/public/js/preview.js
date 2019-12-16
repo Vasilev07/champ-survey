@@ -4,7 +4,7 @@ $(function () {
     $.ajax({
         method: "GET",
         async: true,
-        url: "/api/" + url,
+        url: "/" + url,
         beforeSend: function () {
             $(".spinner").show();
             $(".over").show();
