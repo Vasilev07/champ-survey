@@ -1,9 +1,11 @@
 (function () {
     const previews = (function () {
+        console.log('here21');
         const _slidersIds = [];
         const _dateTimeIds = [];
 
         const sliderPreview = function (data, index) {
+            console.log('data', data);
             const questionWrapper = document.createElement("div");
             const order = document.createElement("span");
             const label = document.createElement("label");
@@ -14,7 +16,7 @@
             input.setAttribute("min", "0");
             input.setAttribute("max", "100");
             input.setAttribute("name", "question-" +
-                data.questionData.questionId + "-" + data.questionData.type);
+                data.question + "-" + data.questionType);
             label.setAttribute("for", "input-" + index);
 
             input.id = "input-" + index;
@@ -22,9 +24,9 @@
             questionWrapper.className = "question-wrapper";
 
             order.innerHTML = index + ". ";
-            label.innerHTML = data.questionData.question;
+            label.innerHTML = data.question;
 
-            if (data.questionData.isRequired) {
+            if (data.isRequired) {
                 input.setAttribute("required", "required");
             }
 
@@ -46,7 +48,7 @@
             const order = document.createElement("span");
             const questionLabel = document.createElement("label");
 
-            questionLabel.innerHTML = data.questionData.question;
+            questionLabel.innerHTML = data.question;
             order.innerHTML = index + ". ";
             questionWrapper.appendChild(order);
             questionWrapper.appendChild(questionLabel);
@@ -60,7 +62,7 @@
                 input.setAttribute("type", "checkbox");
                 input.setAttribute("value", answer.answerId);
                 input.setAttribute("name", "question-" +
-                    data.questionData.questionId + "-" + data.questionData.type);
+                    data.question + "-" + data.type);
 
                 label.innerText = answer.answer;
 
@@ -69,7 +71,7 @@
                 questionWrapper.appendChild(divCheckBox);
             });
 
-            if (data.questionData.isRequired) {
+            if (data.isRequired) {
                 questionWrapper.className += "required";
             }
 
@@ -81,7 +83,7 @@
             const order = document.createElement("span");
             const questionLabel = document.createElement("label");
 
-            questionLabel.innerHTML = data.questionData.question;
+            questionLabel.innerHTML = data.question;
             order.innerHTML = index + ". ";
             questionWrapper.appendChild(order);
             questionWrapper.appendChild(questionLabel);
@@ -95,7 +97,7 @@
                 input.setAttribute("type", "radio");
                 input.setAttribute("value", answer.answerId);
                 input.setAttribute("name", "question-" +
-                    data.questionData.questionId + "-" + data.questionData.type);
+                    data.question + "-" + data.type);
 
                 input.setAttribute("required", "required");
 
@@ -115,14 +117,14 @@
             const questionLabel = document.createElement("label");
             const input = document.createElement("input");
 
-            questionLabel.innerHTML = data.questionData.question;
+            questionLabel.innerHTML = data.question;
             order.innerHTML = index + ". ";
 
             input.setAttribute("type", "text");
             input.setAttribute("name", "question-" +
-                data.questionData.questionId + "-" + data.questionData.type);
+                data.question + "-" + data.type);
 
-            if (data.questionData.isRequired) {
+            if (data.isRequired) {
                 input.setAttribute("required", "required");
             }
 
@@ -146,10 +148,10 @@
 
             date.setAttribute("type", "text");
             date.setAttribute("name", "question-" +
-                data.questionData.questionId + "-" + data.questionData.type);
+                data.question + "-" + data.questionType);
             time.setAttribute("type", "text");
             date.setAttribute("name", "question-" +
-                data.questionData.questionId + "-" + data.questionData.type);
+                data.question + "-" + data.questionType);
             dateLabel.setAttribute("for", "datepicker-" + index);
             timeLabel.setAttribute("for", "timepicker-" + index);
 
@@ -162,11 +164,11 @@
             questionWrapper.className = "question-wrapper";
 
             order.innerHTML = index + ". ";
-            questionLabel.innerHTML = data.questionData.question;
+            questionLabel.innerHTML = data.question;
             dateLabel.innerHTML = "Date: ";
             timeLabel.innerHTML = "Time: ";
 
-            if (data.questionData.isRequired) {
+            if (data.isRequired) {
                 date.setAttribute("required", "required");
             }
 
@@ -225,7 +227,7 @@
             // questionWrapper.className = "container";
 
             const question = document.createElement("h4");
-            question.innerHTML = index + ". " + data.questionData.question;
+            question.innerHTML = index + ". " + data.question;
             questionWrapper.appendChild(question);
 
             const label1 = document.createElement("label");
@@ -233,8 +235,8 @@
             const input1 = document.createElement("input");
             input1.className = "form-check-input";
             input1.setAttribute("type", "radio");
-            input1.setAttribute("name", "question-" + data.questionData.questionId +
-                "-" + data.questionData.type);
+            input1.setAttribute("name", "question-" + data.question +
+                "-" + data.questionType);
             input1.setAttribute("value", "smile");
             input1.setAttribute("id", "inlineRadio1");
 
@@ -250,8 +252,8 @@
             const input2 = document.createElement("input");
             input2.className = "form-check-input";
             input2.setAttribute("type", "radio");
-            input2.setAttribute("name", "question-" + data.questionData.questionId +
-                "-" + data.questionData.type);
+            input2.setAttribute("name", "question-" + data.question +
+                "-" + data.questionType);
             input2.setAttribute("value", "neutral");
             input2.setAttribute("id", "inlineRadio2");
 
@@ -268,8 +270,8 @@
             const input3 = document.createElement("input");
             input3.className = "form-check-input";
             input3.setAttribute("type", "radio");
-            input3.setAttribute("name", "question-" + data.questionData.questionId +
-                "-" + data.questionData.type);
+            input3.setAttribute("name", "question-" + data.question +
+                "-" + data.questionType);
             input3.setAttribute("value", "sad");
             input3.setAttribute("id", "inlineRadio3");
 

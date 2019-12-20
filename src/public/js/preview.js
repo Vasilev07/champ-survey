@@ -1,6 +1,7 @@
 $(function () {
     const url = window.location.href.match(/[0-9a-zA-Z]+$/);
     let surveyData;
+    console.log('here');
     $.ajax({
         method: "GET",
         async: true,
@@ -26,6 +27,7 @@ $(function () {
             }, 600);
 
             surveyData = survey;
+            console.log('asdasdasdasd', survey.questionData);
             const surveyWrapper = $("<div></div>");
             const questionWrapper = $("<div></div>");
             const thumbnailWrapper = $("<div></div>");
@@ -55,7 +57,7 @@ $(function () {
                         title: "Category"
                     }))
                 .append($("<span></span>")
-                    .html(survey.Category.name));
+                    .html(survey.categoryName));
 
             dateDiv.addClass("survey-date col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4")
                 .append($("<i></i>")
@@ -81,7 +83,7 @@ $(function () {
             const form = $("#submit-survey");
 
             $("#main").append(surveyWrapper);
-            survey.surveyContentData.forEach(function (element, index) {
+            survey.questionData.forEach(function (element, index) {
                 const row = $("<div></div>");
                 const formGroup = $("<div></div>");
                 row.addClass("row");
@@ -89,23 +91,23 @@ $(function () {
 
                 let newElement;
                 row.append(formGroup);
-                if (element.questionData.type === "slider") {
+                if (element.questionType === "slider") {
                     newElement = window.previews.sliderPreview(element, index + 1);
                     formGroup.append(newElement);
-                } else if (element.questionData.type === "multiple-choice") {
+                } else if (element.questionType === "multiple-choice") {
                     newElement = window.previews.multipleChoicePreview(element, index + 1);
                     formGroup.className += " checkbox-group";
                     formGroup.append(newElement);
-                } else if (element.questionData.type === "single-choice") {
+                } else if (element.questionType === "single-choice") {
                     newElement = window.previews.singleChoicePreview(element, index + 1);
                     formGroup.append(newElement);
-                } else if (element.questionData.type === "single-textbox") {
+                } else if (element.questionType === "single-textbox") {
                     newElement = window.previews.singleTextboxPreview(element, index + 1);
                     formGroup.append(newElement);
-                } else if (element.questionData.type === "emojis") {
+                } else if (element.questionType === "emojis") {
                     newElement = window.previews.emojisChoicePreview(element, index + 1);
                     formGroup.append(newElement);
-                } else if (element.questionData.type === "date") {
+                } else if (element.questionType === "date") {
                     newElement = window.previews.datePreview(element, index + 1);
                     formGroup.append(newElement);
                 }

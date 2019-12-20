@@ -27,4 +27,12 @@ export class CryptoService {
         crypted += cipher.final('hex');
         return crypted;
     }
+
+    public decrypt(text: string): any {
+        const decipher = crypto.createDecipheriv(this.algorithm, this.key, this.iv);
+        let dec = decipher.update(text, 'hex', 'utf8');
+        dec += decipher.final('utf8');
+
+        return dec;
+    }
 }

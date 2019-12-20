@@ -1,10 +1,12 @@
 import { Request, Response } from 'express';
 import { CategoriesController } from '../controllers/categories-controller';
 import { ConfigController } from '../controllers/config-controller';
+import { SurveyController } from '../controllers/survey-controller';
 
 export const init = (app: any) => {
     const categoriesController = new CategoriesController();
     const configController = new ConfigController();
+    const surveysController = new SurveyController();
 
     app.get('/', async (request: Request, response: Response) => {
         // const categories = await categoriesController.getAllCategories();
@@ -56,4 +58,17 @@ export const init = (app: any) => {
             user: request.user,
         });
     });
+
+    app.get('/:url', async (request: Request, response: Response) => {
+        const param = request.params.url;
+        console.log('++++++++', param);
+        console.log('ASDASKJDASHJDKJASHDKJASHDKJASHDKJHASKJDH');
+        try {
+            const surveys = await surveysController.getUserSurveyData(param);
+            console.log('_______in controller', surveys)
+            response.send(surveys);
+        } catch (err) {
+            response.status(500).json('err some fucking err');
+        }
+    })
 };

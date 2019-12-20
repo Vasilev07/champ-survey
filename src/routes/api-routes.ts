@@ -45,8 +45,8 @@ export const init = (app: any): void => {
     app.post('/user-surveys', async (request: Request, response: Response) => {
         const userRequest = request.user as IUser;
         const category = request.body.category;
-        console.log('userRequest', userRequest);
-        console.log('category', category);
+        // console.log('userRequest', userRequest);
+        // console.log('category', category);
 
         if (!userRequest) {
             return response.status(400).send('user not found');
@@ -54,7 +54,9 @@ export const init = (app: any): void => {
 
         const surveys = await surveysController.getUserSurveysData(userRequest.username, category);
 
-        console.log('serveys in routes', surveys);
+        // console.log('serveys in routes', surveys);
         return response.status(200).send(surveys);
     });
+
+    
 };

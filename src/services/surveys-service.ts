@@ -1,6 +1,7 @@
 import { isNil } from "lodash";
 import { DB } from "../controllers/db-controller";
 import { ISurveyData } from "../interfaces/survey-interface";
+import { ISurvey } from "../models/survey-model";
 import { CategoriesService } from "./categories-service";
 import { CryptoService } from "./crypto-service";
 import { UsersService } from "./users-service";
@@ -12,6 +13,7 @@ export class SurveysService {
         this.categoryService = new CategoriesService();
         this.usersService = new UsersService();
     }
+
     public async createSurvey(surveyData: ISurveyData): Promise<void> {
 
         const categoryId = await this.getCategoryIdByName(surveyData.category_name) ? 
@@ -35,6 +37,7 @@ export class SurveysService {
             user_id: userId,
             name: surveyData.surveyName,
             questionData: surveyData.questionData,
+            createdAt: new Date(),
         });
         
         await surveyToSave.save((err) => {
@@ -66,7 +69,7 @@ export class SurveysService {
         const userId = await this.getUserIdByName(username);
         const surveys = await DB.Models.Survey.find({user_id: userId});
         const serveysCount = surveys.length; 
-        console.log('surveys', surveys);
+        // console.log('surveys', surveys);
 
         if (!userId) {
             throw new Error('No user provied');
@@ -91,8 +94,41 @@ export class SurveysService {
             }
         });
         
-        console.log('surveyData', surveyData);
+        // console.log('surveyData', surveyData);
 
         return await Promise.all(surveyData);
+    }
+
+    public async getSurvey(userId: string, surveyName: string): Promise<ISurvey | null> {
+        return await DB.Models.Survey.findOne({ user_id: userId, name: surveyName });
+    }
+
+    public async getUserSurveyData(url: any): Promise<any> {
+        console.log('URL URL URL', url);
+        const cryptography = new CryptoService();
+        const decrypt = cryptography.decrypt(url);
+        const [userId, , surveyName] = decrypt.split(/(\&\&)/);
+
+        console.log('splitted', decrypt.split(/(\&\&)/));
+        console.log('USERID USERID USERID', userId);
+        console.log('surveyName surveyName surveyName', surveyName);
+
+        const survey = await this.getSurvey(userId, surveyName);
+        console.log('_______', survey)
+        if (!survey) {
+            throw new Error('no such survey');
+        }
+        const category = await this.categoryService.getCategoryById(survey.category_id);
+        if (!category) {
+            throw new Error('no such category');
+        }
+        console.log('categoryName', category.name);
+
+        return {
+            name: survey.name,
+            createdAt: survey.createdAt,
+            categoryName: category.name,
+            questionData: survey.questionData,
+        };
     }
 }
