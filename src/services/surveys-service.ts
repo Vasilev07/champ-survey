@@ -104,17 +104,12 @@ export class SurveysService {
     }
 
     public async getUserSurveyData(url: any): Promise<any> {
-        console.log('URL URL URL', url);
         const cryptography = new CryptoService();
         const decrypt = cryptography.decrypt(url);
         const [userId, , surveyName] = decrypt.split(/(\&\&)/);
 
-        console.log('splitted', decrypt.split(/(\&\&)/));
-        console.log('USERID USERID USERID', userId);
-        console.log('surveyName surveyName surveyName', surveyName);
-
         const survey = await this.getSurvey(userId, surveyName);
-        console.log('_______', survey)
+
         if (!survey) {
             throw new Error('no such survey');
         }
@@ -122,9 +117,10 @@ export class SurveysService {
         if (!category) {
             throw new Error('no such category');
         }
-        console.log('categoryName', category.name);
-
+        
         return {
+            user_id: survey.user_id,
+            survey_id: survey._id,
             name: survey.name,
             createdAt: survey.createdAt,
             categoryName: category.name,

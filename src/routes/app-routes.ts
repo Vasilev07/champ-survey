@@ -61,11 +61,11 @@ export const init = (app: any) => {
 
     app.get('/:url', async (request: Request, response: Response) => {
         const param = request.params.url;
-        console.log('++++++++', param);
-        console.log('ASDASKJDASHJDKJASHDKJASHDKJASHDKJHASKJDH');
+        // console.log('++++++++', param);
+        // console.log('ASDASKJDASHJDKJASHDKJASHDKJASHDKJHASKJDH');
         try {
             const surveys = await surveysController.getUserSurveyData(param);
-            console.log('_______in controller', surveys)
+            // console.log('_______in controller', surveys)
             response.send(surveys);
         } catch (err) {
             response.status(500).json('err some fucking err');

@@ -1,4 +1,5 @@
 import { connect, connection, Connection } from 'mongoose';
+import { Answer, AnswerModel } from '../models/answers-model';
 import { Category, CategoryModel } from '../models/category-model';
 import { Config, ConfigModel } from '../models/config-model';
 import { Survey, SurveyModel } from '../models/survey-model';
@@ -9,6 +10,7 @@ declare interface IModels {
     Category: CategoryModel;
     Survey: SurveyModel;
     Config: ConfigModel;
+    Answer: AnswerModel;
 }
 
 export class DB {
@@ -29,6 +31,7 @@ export class DB {
             Category: new Category().model,
             Survey: new Survey().model,
             Config: new Config().model,
+            Answer: new Answer().model,
             // this is where we initialise all models
         }
     }

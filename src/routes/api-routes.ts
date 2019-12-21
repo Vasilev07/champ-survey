@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import path from 'path';
+import { AnswersController } from '../controllers/answers-controller';
 import { CategoriesController } from '../controllers/categories-controller';
 import { SurveyController } from '../controllers/survey-controller';
 import { IUser } from '../models/user-model';
@@ -8,6 +9,7 @@ export const init = (app: any): void => {
     // console.log(data);
     const categoriesController = new CategoriesController();
     const surveysController = new SurveyController();
+    const answersController = new AnswersController();
 
     app.set('views', path.join(__dirname, '../views'));
 
@@ -58,5 +60,20 @@ export const init = (app: any): void => {
         return response.status(200).send(surveys);
     });
 
-    
+    app.post('/submit', async (request: Request, response: Response) => {
+        const data = { 
+            ...JSON.parse(request.body.surveyData),
+            answer_data: [...JSON.parse(request.body.answer_data)]
+        };
+
+        delete data.questionData;
+
+        try {
+            await answersController.submitAnswer(data);
+        } catch (err) {
+            console.log(err);
+        }
+
+        response.send(data);
+    });
 };

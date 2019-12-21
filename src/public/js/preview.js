@@ -28,6 +28,7 @@ $(function () {
 
             surveyData = survey;
             console.log('asdasdasdasd', survey.questionData);
+            console.log('surveyData',surveyData);
             const surveyWrapper = $("<div></div>");
             const questionWrapper = $("<div></div>");
             const thumbnailWrapper = $("<div></div>");
@@ -154,20 +155,16 @@ $(function () {
         }
 
         const serialize = $("#submit-survey").serializeArray();
-
-        const surveyDataObj = {
-            surveyId: surveyData.id,
-            name: surveyData.name,
-            userId: surveyData.user_id
-        };
-
+        console.log('surveyData', surveyData);
+        console.log('serialize', serialize);
+        
         $.ajax({
             method: "POST",
             async: true,
-            url: "/api/submit",
+            url: "/submit",
             data: {
-                serialize,
-                surveyDataObj
+                surveyData: JSON.stringify(surveyData),
+                answer_data: JSON.stringify(serialize)
             },
             error: function (error) {
                 submissionModal.modal("show");
