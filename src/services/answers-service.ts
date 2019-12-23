@@ -57,15 +57,12 @@ export class AnswersService {
                 submissionDateMap.set(date, 1);
             }
         });
-        console.log(submissionDateMap);
 
         submissionDateMap.forEach((value: number, key: string) => {
-            console.log('key', key);
-            console.log('value', value);
             data.push(value);
             label.push(key);
         })
-        console.log(submissionDateMap);
+
         // label = label.slice(label.length - 7, 7);
         return {
             data,
