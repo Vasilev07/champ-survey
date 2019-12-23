@@ -31,6 +31,7 @@ export const init = (app: any): void => {
                     if (error) {
                         return next(error);
                     }
+                    console.log(user);
                     return response.status(200).redirect(200, '/index');
                 });
             })(request, response, next);

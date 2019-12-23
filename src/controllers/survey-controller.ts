@@ -19,4 +19,8 @@ export class SurveyController {
     public async getUserSurveyData(url: string): Promise<any> {
         return await this.surveysService.getUserSurveyData(url);
     }
+
+    public async getAllQuestionTypes(): Promise<any> {
+        return await this.surveysService.getAllQuestionTypes();
+    }
 }

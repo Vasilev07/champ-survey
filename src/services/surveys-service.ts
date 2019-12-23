@@ -1,4 +1,4 @@
-import { isNil } from "lodash";
+import { flatten, isNil } from "lodash";
 import { DB } from "../controllers/db-controller";
 import { ISurveyData } from "../interfaces/survey-interface";
 import { ISurvey } from "../models/survey-model";
@@ -125,6 +125,40 @@ export class SurveysService {
             createdAt: survey.createdAt,
             categoryName: category.name,
             questionData: survey.questionData,
+        };
+    }
+
+    public counterArray(array: any[]) {
+        const mapCounter = [...new Set(array)]
+            .map((x) => [x, array.filter((y) => y === x).length]);
+
+        return mapCounter;
+    }
+    public async getAllQuestionTypes(): Promise<any> {
+        const allQuestionTypes = await DB.Models.Survey.find({});
+        const allQuestionsQuestionData = allQuestionTypes.map((question) => question.questionData)
+        const allQuestionsQeustonDataQuestionTypes = flatten(allQuestionsQuestionData);
+        const questionTypesCount = new Map();
+        const data = [] as any;
+        const label = [] as any;
+
+        allQuestionsQeustonDataQuestionTypes.forEach(question => {
+            if (questionTypesCount.has(question.questionType)) {
+                const currentValue = questionTypesCount.get(question.questionType);
+                questionTypesCount.set(question.questionType, currentValue + 1);
+            } else {
+                questionTypesCount.set(question.questionType, 1);
+            }
+        });
+        
+        questionTypesCount.forEach((value, key) => {
+            data.push(value);
+            label.push(key);
+        });
+        
+        return {
+            data,
+            label
         };
     }
 }

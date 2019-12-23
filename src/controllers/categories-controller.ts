@@ -12,5 +12,9 @@ export class CategoriesController {
     }
     public async getAllCategories(): Promise<ICategoryData[]> {
         return await this.categoriesService.getAllCategories();
-    } 
+    }
+
+    public async getAllUserCategories(): Promise<any> {
+        return await this.categoriesService.getAllUserCategories();
+    }
 }

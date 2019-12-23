@@ -62,7 +62,7 @@ export class UsersService {
         return allUsers.map((user) => user.email);
     }
 
-    private async validateUsername(username: string): Promise<IUserData | null>{
+    public async validateUsername(username: string): Promise<IUserData | null>{
         const searchForUser = await this.findUserByUsername(username);
         
         return searchForUser;

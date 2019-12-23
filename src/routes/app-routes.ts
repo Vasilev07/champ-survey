@@ -2,11 +2,16 @@ import { Request, Response } from 'express';
 import { CategoriesController } from '../controllers/categories-controller';
 import { ConfigController } from '../controllers/config-controller';
 import { SurveyController } from '../controllers/survey-controller';
+import { UserController } from '../controllers/user-controller';
+import { IUser } from '../models/user-model';
+import { CryptoService } from '../services/crypto-service';
 
 export const init = (app: any) => {
     const categoriesController = new CategoriesController();
     const configController = new ConfigController();
     const surveysController = new SurveyController();
+    const userController = new UserController();
+    const cryptoService = new CryptoService();
 
     app.get('/', async (request: Request, response: Response) => {
         // const categories = await categoriesController.getAllCategories();
@@ -70,5 +75,26 @@ export const init = (app: any) => {
         } catch (err) {
             response.status(500).json('err some fucking err');
         }
+    });
+
+    app.post('/check-survey-name', async (request: Request, response: Response) => {
+        const username = request.body.username;
+
+        const checkUniqueSurveyName = userController.validateUsername(username);
+
+        response.send(checkUniqueSurveyName);
+    });
+
+    app.post('/generate-share', async (request: Request, response: Response) => {
+        const body = request.body;
+
+        if (!request || !request.user || !request.user) {
+            throw new Error('no user attached to request')
+        }
+        const user = request.user as IUser;
+        const encryptedUrl = cryptoService.encrypt(user.username, body.surveyName);
+        const finalUrl = request.protocol + '://' + request.get('host') + '/preview/' + encryptedUrl;
+
+        response.status(200).json(finalUrl);
     })
 };

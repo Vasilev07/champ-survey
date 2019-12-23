@@ -10,4 +10,8 @@ export class UserController {
     public async createUser(user: IUserData): Promise<any> {
        return await this.usersService.createUser(user);
     }
+
+    public async validateUsername(username: string): Promise<IUserData | null> {
+        return await this.usersService.validateUsername(username);
+    }
 }

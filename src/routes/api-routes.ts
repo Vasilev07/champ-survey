@@ -76,4 +76,31 @@ export const init = (app: any): void => {
 
         response.send(data);
     });
+
+    app.post('/statistics', async (request: Request, response: Response) => {
+        try {
+            const statisticsPie = 
+                await categoriesController.getAllUserCategories();
+            const statisticsDataDonut =
+                await surveysController.getAllQuestionTypes();
+            // const statisticsDataBarByDate =
+            //     await dataController.getAllSubmissionsByDate();
+            // const statisticsDataBarByDay =
+            //     await dataController.getAllSubmissionsByDayOfWeek();
+            const context = {
+                labelPie: statisticsPie.label,
+                dataPie: statisticsPie.data,
+                labelDonut: statisticsDataDonut.label,
+                dataDonut: statisticsDataDonut.data,
+                // labelBar: statisticsDataBarByDate.label,
+                // dataBar: statisticsDataBarByDate.data,
+                // dataBarDay: statisticsDataBarByDay.label,
+                // labelBarDay: statisticsDataBarByDay.data,
+            };
+            console.log(context)
+            response.status(200).send(context);
+        } catch (error) {
+            response.status(500).end();
+        }
+    })
 };
