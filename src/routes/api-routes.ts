@@ -85,8 +85,8 @@ export const init = (app: any): void => {
                 await surveysController.getAllQuestionTypes();
             const statisticsDataBarByDate =
                 await answersController.getAllSubmissionsByDate();
-            // const statisticsDataBarByDay =
-            //     await dataController.getAllSubmissionsByDayOfWeek();
+            const statisticsDataBarByDay =
+                await answersController.getAllSubmissionsByDayOfWeek();
             const context = {
                 labelPie: statisticsPie.label,
                 dataPie: statisticsPie.data,
@@ -94,8 +94,8 @@ export const init = (app: any): void => {
                 dataDonut: statisticsDataDonut.data,
                 labelBar: statisticsDataBarByDate.label,
                 dataBar: statisticsDataBarByDate.data,
-                // dataBarDay: statisticsDataBarByDay.label,
-                // labelBarDay: statisticsDataBarByDay.data,
+                dataBarDay: statisticsDataBarByDay.label,
+                labelBarDay: statisticsDataBarByDay.data,
             };
             // console.log(context)
             response.status(200).send(context);

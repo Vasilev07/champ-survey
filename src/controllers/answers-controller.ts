@@ -15,4 +15,8 @@ export class AnswersController {
     public async getAllSubmissionsByDate(): Promise<any> {
         return await this.answersService.getAllSubmissionsByDate();
     }
+
+    public async getAllSubmissionsByDayOfWeek(): Promise<any> {
+        return await this.answersService.getAllSubmissionsByDayOfWeek();
+    }
 }

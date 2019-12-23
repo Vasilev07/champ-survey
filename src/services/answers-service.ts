@@ -46,7 +46,7 @@ export class AnswersService {
             }
         });
         const submissionDateMap = new Map();
-
+        // REMOVE WHEN FIX DB
         const dayOfSubmissions = dayOfSubmissionsIfExist.filter((day: any) => day !== undefined);
 
         dayOfSubmissions.forEach((date: string) => {
@@ -72,4 +72,53 @@ export class AnswersService {
             label,
         }
     }
+
+    public async getAllSubmissionsByDayOfWeek(): Promise<any> {
+        const days = ['', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
+            'Friday', 'Saturday', 'Sunday',
+        ];
+        const submissions = await DB.Models.Answer.find({});
+        const data = [] as any;
+        const label = [] as any;
+        const submissionDateIfExist = submissions.map((submission) => {
+            if (submission.createdAt) {
+                return submission.createdAt;
+            }
+        });
+        
+        // remove when fix DB
+        const submissionDate = submissionDateIfExist.filter((date) => date !== undefined);
+        
+        const dayAsDigit = submissionDate.map((date: any) => {
+            if (date.getDay() === 0) {
+                return 7;
+            }
+
+            return date.getDay();
+        });
+        const daysWithWord = dayAsDigit.map((currentDayAsDigit) => {
+            return days[currentDayAsDigit];
+        });
+
+        const mapOfDays = new Map();
+
+        daysWithWord.forEach((day) => {
+            if (mapOfDays.has(day)) {
+                const current = mapOfDays.get(day);
+                mapOfDays.set(day, current + 1);
+            } else {
+                mapOfDays.set(day, 1);
+            }
+        });
+
+        mapOfDays.forEach((value, key) => {
+            data.push(value);
+            label.push(key);
+        })
+
+        return {
+            data,
+            label
+        };
+    };
 }
