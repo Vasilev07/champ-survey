@@ -83,8 +83,8 @@ export const init = (app: any): void => {
                 await categoriesController.getAllUserCategories();
             const statisticsDataDonut =
                 await surveysController.getAllQuestionTypes();
-            // const statisticsDataBarByDate =
-            //     await dataController.getAllSubmissionsByDate();
+            const statisticsDataBarByDate =
+                await answersController.getAllSubmissionsByDate();
             // const statisticsDataBarByDay =
             //     await dataController.getAllSubmissionsByDayOfWeek();
             const context = {
@@ -92,12 +92,12 @@ export const init = (app: any): void => {
                 dataPie: statisticsPie.data,
                 labelDonut: statisticsDataDonut.label,
                 dataDonut: statisticsDataDonut.data,
-                // labelBar: statisticsDataBarByDate.label,
-                // dataBar: statisticsDataBarByDate.data,
+                labelBar: statisticsDataBarByDate.label,
+                dataBar: statisticsDataBarByDate.data,
                 // dataBarDay: statisticsDataBarByDay.label,
                 // labelBarDay: statisticsDataBarByDay.data,
             };
-            console.log(context)
+            // console.log(context)
             response.status(200).send(context);
         } catch (error) {
             response.status(500).end();

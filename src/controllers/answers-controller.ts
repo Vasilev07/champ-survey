@@ -11,4 +11,8 @@ export class AnswersController {
     public async submitAnswer(answerData: IAnswer): Promise<void> {
         await this.answersService.submitAnswer(answerData);
     }
+
+    public async getAllSubmissionsByDate(): Promise<any> {
+        return await this.answersService.getAllSubmissionsByDate();
+    }
 }
