@@ -39,7 +39,7 @@ $(function () {
                 .addClass("info bolded")
                 .append(index + 1)
                 .append(". ")
-                .append(survey.questionData.question));
+                .append(survey.question));
 
         panelHeading.append(anchorHead);
 
@@ -51,7 +51,7 @@ $(function () {
                 }))
             .append($("<span></span>")
                 .addClass("info")
-                .append(survey.questionData.type));
+                .append(survey.questionType));
 
         Object.keys(survey.answerCount).forEach((answer) => {
             const answerChoices = $("<div></div>");
@@ -135,8 +135,8 @@ $(function () {
             const surveyName = survey.name;
             const main = $("#main");
             window.submitDate = survey.createdAt;
-
-            survey.surveyContentData.forEach((surveyData, index) => {
+            console.log(survey.questionData)
+            survey.questionData.forEach((surveyData, index) => {
                 const newRow = surveyInfo(surveyData, index, surveyName);
                 main.append($(newRow));
             });

@@ -96,5 +96,14 @@ export const init = (app: any) => {
         const finalUrl = request.protocol + '://' + request.get('host') + '/preview/' + encryptedUrl;
 
         response.status(200).json(finalUrl);
-    })
+    });
+
+    app.get('/analyze/:url', async (request: Request, response: Response) => {
+
+        response.render('preview-survey/statistic', {
+            isAuthenticated: request.isAuthenticated(),
+            user: request.user,
+            surveyContentData: [{}],
+        });
+    });
 };

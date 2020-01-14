@@ -102,5 +102,14 @@ export const init = (app: any): void => {
         } catch (error) {
             response.status(500).end();
         }
+    });
+
+    app.get('/api/analyze/:url', async (request: Request, response: Response) => {
+        const url = request.params.url;
+        console.log(url);
+        const surveyData = await surveysController.getUserSurveyData(url);
+        console.log(surveyData);
+
+        response.status(200).send(surveyData);
     })
 };
